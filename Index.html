@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEFA Champions League 2024-2025 - Clasificación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    
+
+    .form-select {
+        border-radius: 1.375rem;
+    }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 20px;
+        }
+        table, th, td {
+            border: 1px solid rgb(0, 0, 0);
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        table {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        th {
+            background-color: #000000;
+        }
+        #matches-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Tres columnas para los equipos */
+            gap: 20px;
+            text-align: center;
+            color:#fe0000;
+            
+            
+        }
+        .team-column {
+            border: 5px solid #000000;
+            padding: 10px;
+            
+        }
+        .match {
+            margin-bottom: 10px;
+            
+        }
+        .match strong {
+            display: block;
+            margin-bottom: 5px;
+            
+        }
+        body {
+        background-image: url('uefa.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        font-family: 'Courier New', Courier, monospace;
+        color: #ffffff;
+        font-size: 20px;
+    }
+
+    /* Cambiar el color de los textos y dar un poco de sombra */
+    
+
+    /* Personalizar la tabla de clasificación */
+    #standings {
+        margin-top: 20px;
+        background-color: rgba(107, 114, 216, 0.8);
+        border-radius: 8px;
+    }
+
+    #standings th, #standings td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    #standings td img {
+        
+        object-fit: cover;
+        
+    }
+
+    #standings td {
+        vertical-align: middle;
+        
+    }
+
+
+    /* Personalizar los cuadros de enfrentamientos */
+    
+
+    /* Título principal */
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+    }
+    h2 {
+        margin-top: 20px;
+    }
+    </style>
+</head>
+<body>
+
+    <h1>UEFA Champions League 2024-2025</h1>
+
+    <h2>Enfrentamientos</h2>
+    <div id="matches-container">
+        
+    </div>
+
+    <h2>Clasificación</h2>
+    <table id="standings">
+        <tr>
+            <th>Equipo</th>
+            <th>Puntos</th>
+        </tr>
+    </table>
+
+    <script>
+        // Equipos y enfrentamientos
+    
+        const teams = [
+            "Manchester City", "Real Madrid", "Barcelona","Liverpool","PSG","Inter de Milán", 
+            "Bayern Múnich", "RB Leipzig", "Arsenal", "Juventus", "Atlético de Madrid", "Shakhtar Donetsk",
+            "Feyenoord", "Celtic", "PSV Eindhoven", "Lille", "Monaco", "Benfica", 
+            "Club Brugge", "Dinamo Zagreb", "Young Boys", "Crvena Zvezda", "Sporting CP",
+            "Stuttgart", "Aston Villa", "Sparta Praga", "Salzburg", "Sturm Graz", "Girona",
+            "Bologna", "Stade Brest", "Slovan Bratislava","Borussia Dortmund","AC Milan","Atalanta","Bayer Leverkusen"
+        ];
+
+        const matches = {
+            "Manchester City": [
+                {home: "Manchester City", away: "Inter de Milán", result: null},
+                {home: "Manchester City", away: "Club Brugge", result: null},
+                {home: "Manchester City", away: "Feyenoord", result: null},
+                {home: "Manchester City", away: "Sparta Praga", result: null}
+               
+            ],
+            "Real Madrid": [
+                {home: "Real Madrid", away: "Borussia Dortmund", result: null},
+                {home: "Real Madrid", away: "AC Milan", result: null},       
+                {home: "Real Madrid", away: "Salzburg", result: null},
+                {home: "Real Madrid", away: "Stuttgart", result: null}
+                
+            ],
+            "Barcelona": [
+                {home: "Barcelona", away: "Bayern Múnich", result: null},
+                {home: "Barcelona", away: "Atalanta", result: null},
+                {home: "Barcelona", away: "Young Boys", result: null},
+                {home: "Barcelona", away: "Stade Brest", result: null}
+            ],
+            "Liverpool": [
+            {home: "Liverpool", away: "Real Madrid", result: null},
+            {home: "Liverpool", away: "Bayer Leverkusen", result: null},
+            {home: "Liverpool", away: "Lille", result: null},
+            {home: "Liverpool", away: "Bologna", result: null}
+
+            ],
+            "PSG": [
+            {home: "PSG", away: "Manchester City", result: null},
+            {home: "PSG", away: "Atlético de Madrid", result: null},
+            {home: "PSG", away: "PSV Eindhoven", result: null},
+            {home: "PSG", away: "Girona", result: null}
+            ],
+
+            "Inter de Milán": [
+            {home: "Inter de Milán", away: "RB Leipzig", result: null},
+            {home: "Inter de Milán", away: "Arsenal", result: null},
+            {home: "Inter de Milán", away: "Crvena Zvezda", result: null},
+            {home: "Inter de Milán", away: "Monaco", result: null}
+            ],
+
+            "Bayern Múnich": [
+            {home: "Bayern Múnich", away: "PSG", result: null},
+            {home: "Bayern Múnich", away: "Benfica", result: null},
+            {home: "Bayern Múnich", away: "Dinamo Zagreb", result: null},
+            {home: "Bayern Múnich", away: "Slovan Bratislava", result: null}
+            ],
+
+            "RB Leipzig": [
+            {home: "RB Leipzig", away: "Liverpool", result: null},
+            {home: "RB Leipzig", away: "Juventus", result: null},
+            {home: "RB Leipzig", away: "Sporting CP", result: null},
+            {home: "RB Leipzig", away: "Aston Villa", result: null}
+            ],
+
+            "Arsenal": [
+            {home: "Arsenal", away: "PSG", result: null},
+            {home: "Arsenal", away: "Shakhtar Donetsk", result: null},
+            {home: "Arsenal", away: "Dinamo Zagreb", result: null},
+            {home: "Arsenal", away: "Monaco", result: null}
+            
+            ],
+
+            "Juventus": [
+            {home: "Juventus", away: "Manchester City", result: null},
+            {home: "Juventus", away: "Benfica", result: null},
+            {home: "Juventus", away: "PSV Eindhoven", result: null},
+            {home: "Juventus", away: "Stuttgart", result: null}
+            
+            ],
+
+            "Atlético de Madrid": [
+            {home: "Atlético de Madrid", away: "RB Leipzig", result: null},
+        {home: "Atlético de Madrid", away: "Bayer Leverkusen", result: null},
+            {home: "Atlético de Madrid", away: "Lille", result: null},
+            {home: "Atlético de Madrid", away: "Slovan Bratislava", result: null}
+            
+            ],
+
+            "Shakhtar Donetsk": [
+            {home: "Shakhtar Donetsk", away: "Bayern Múnich", result: null},
+            {home: "Shakhtar Donetsk", away: "Atalanta", result: null},
+            {home: "Shakhtar Donetsk", away: "Young Boys", result: null},
+            {home: "Shakhtar Donetsk", away: "Stade Brest", result: null}
+            
+            ],
+
+            "Feyenoord": [
+            {home: "Feyenoord", away: "Bayern Múnich", result: null},
+            {home: "Feyenoord", away: "Bayer Leverkusen", result: null},
+            {home: "Feyenoord", away: "Salzburg", result: null},
+            {home: "Feyenoord", away: "Sparta Praga", result: null}
+            
+            ],
+
+            "Celtic": [
+            {home: "Celtic", away: "RB Leipzig", result: null},
+            {home: "Celtic", away: "Shakhtar Donetsk", result: null},
+            {home: "Celtic", away: "Young Boys", result: null},
+            {home: "Celtic", away: "Aston Villa", result: null}
+            
+            ],
+
+            "PSV Eindhoven": [
+            {home: "PSV Eindhoven", away: "Liverpool", result: null},
+            {home: "PSV Eindhoven", away: "Shakhtar Donetsk", result: null},
+            {home: "PSV Eindhoven", away: "Sporting CP", result: null},
+            {home: "PSV Eindhoven", away: "Girona", result: null}
+            
+            ],
+
+            "Lille": [
+            {home: "Lille", away: "Real Madrid", result: null},
+            {home: "Lille", away: "Juventus", result: null},
+            {home: "Lille", away: "Feyenoord", result: null},
+            {home: "Lille", away: "Sturm Graz", result: null}
+            
+            ],
+
+            "Monaco": [
+            {home: "Monaco", away: "Barcelona", result: null},
+            {home: "Monaco", away: "Benfica", result: null},
+            {home: "Monaco", away: "Crvena Zvezda", result: null},
+            {home: "Monaco", away: "Sparta Praga", result: null}
+            
+            ],
+
+            "Benfica": [
+            {home: "Benfica", away: "Barcelona", result: null},
+            {home: "Benfica", away: "Atlético de Madrid", result: null},
+            {home: "Benfica", away: "Feyenoord", result: null},
+            {home: "Benfica", away: "Bologna", result: null}
+            
+            ],
+
+            "Club Brugge": [
+            {home: "Club Brugge", away: "Borussia Dortmund", result: null},
+            {home: "Club Brugge", away: "Juventus", result: null},
+            {home: "Club Brugge", away: "Sporting CP", result: null},
+            {home: "Club Brugge", away: "Aston Villa", result: null}
+            
+            ],
+
+            "Dinamo Zagreb": [
+            {home: "Dinamo Zagreb", away: "Bayern Múnich", result: null},
+            {home: "Dinamo Zagreb", away: "Arsenal", result: null},
+            {home: "Dinamo Zagreb", away: "Celtic", result: null},
+            {home: "Dinamo Zagreb", away: "Slovan Bratislava", result: null}
+            
+            ],
+
+            "Young Boys": [
+            {home: "Young Boys", away: "Inter de Milán", result: null},
+            {home: "Young Boys", away: "Atalanta", result: null},
+            {home: "Young Boys", away: "Crvena Zvezda", result: null},
+            {home: "Young Boys", away: "Aston Villa", result: null}
+            
+            ],
+
+            "Crvena Zvezda": [
+            {home: "Crvena Zvezda", away: "Inter de Milán", result: null},
+            {home: "Crvena Zvezda", away: "Benfica", result: null},
+            {home: "Crvena Zvezda", away: "PSV Eindhoven", result: null},
+            {home: "Crvena Zvezda", away: "Stuttgart", result: null}
+            
+            ],
+
+            "Sporting CP": [
+            {home: "Sporting CP", away: "Manchester City", result: null},
+            {home: "Sporting CP", away: "Arsenal", result: null},
+            {home: "Sporting CP", away: "Lille", result: null},
+            {home: "Sporting CP", away: "Bologna", result: null}
+            
+            ],
+
+            "Stuttgart": [
+            {home: "Stuttgart", away: "PSG", result: null},
+            {home: "Stuttgart", away: "Atalanta", result: null},
+            {home: "Stuttgart", away: "Young Boys", result: null},
+            {home: "Stuttgart", away: "Sparta Praga", result: null}
+            
+            ],
+
+            "Aston Villa": [
+            {home: "Aston Villa", away: "Celtic", result: null},
+            {home: "Aston Villa", away: "Juventus", result: null},
+            {home: "Aston Villa", away: "Crvena Zvezda", result: null},
+            {home: "Aston Villa", away: "Monaco", result: null}
+            
+            ],
+
+            "Sparta Praga": [
+            {home: "Sparta Praga", away: "RB Leipzig", result: null},
+            {home: "Sparta Praga", away: "Sporting CP", result: null},
+            {home: "Sparta Praga", away: "Feyenoord", result: null},
+            {home: "Sparta Praga", away: "Aston Villa", result: null}
+            
+            ],
+
+            "Salzburg": [
+            {home: "Salzburg", away: "PSG", result: null},
+            {home: "Salzburg", away: "Atlético de Madrid", result: null},
+            {home: "Salzburg", away: "Stade Brest", result: null},
+            {home: "Salzburg", away: "Dinamo Zagreb", result: null}
+            
+            ],
+
+            "Sturm Graz": [
+            {home: "Sturm Graz", away: "RB Leipzig", result: null},
+            {home: "Sturm Graz", away: "Inter de Milán", result: null},
+            {home: "Sturm Graz", away: "Bayer Leverkusen", result: null},
+            {home: "Sturm Graz", away: "Aston Villa", result: null}
+            
+            ],
+
+            "Girona": [
+            {home: "Girona", away: "PSG", result: null},
+            {home: "Girona", away: "AC Milan", result: null},
+            {home: "Girona", away: "Feyenoord", result: null},
+            {home: "Girona", away: "Sparta Praga", result: null}
+            
+            ],
+
+            "Bologna": [
+            {home: "Bologna", away: "Liverpool", result: null},
+            {home: "Bologna", away: "Benfica", result: null},
+            {home: "Bologna", away: "Sporting CP", result: null},
+            {home: "Bologna", away: "Aston Villa", result: null}
+            
+            ],
+
+            "Stade Brest": [
+            {home: "Stade Brest", away: "Real Madrid", result: null},
+            {home: "Stade Brest", away: "Benfica", result: null},
+            {home: "Stade Brest", away: "AC Milan", result: null},
+            {home: "Stade Brest", away: "Girona", result: null}
+            
+            ],
+
+
+            "Slovan Bratislava": [
+            {home: "Slovan Bratislava", away: "Manchester City", result: null},
+            {home: "Slovan Bratislava", away: "Bayern Múnich", result: null},
+            {home: "Slovan Bratislava", away: "Feyenoord", result: null},
+            {home: "Slovan Bratislava", away: "Sparta Praga", result: null}
+            
+            ],
+
+            "Borussia Dortmund": [
+            {home: "Borussia Dortmund", away: "Barcelona", result: null},
+            {home: "Borussia Dortmund", away: "Shakhtar Donetsk", result: null},
+            {home: "Borussia Dortmund", away: "Celtic", result: null},
+            {home: "Borussia Dortmund", away: "Sturm Graz", result: null}
+            
+            ],
+
+            "AC Milan": [
+            {home: "AC Milan", away: "Liverpool", result: null},
+            {home: "AC Milan", away: "Club Brugge", result: null},
+            {home: "AC Milan", away: "Crvena Zvezda", result: null},
+            {home: "AC Milan", away: "Girona", result: null}
+            
+            ],
+
+            "Atalanta": [
+            {home: "Atalanta", away: "Real Madrid", result: null},
+            {home: "Atalanta", away: "Arsenal", result: null},
+            {home: "Atalanta", away: "Celtic", result: null},
+            {home: "Atalanta", away: "Sturm Graz", result: null}
+            
+            ],
+
+            "Bayer Leverkusen": [
+            {home: "Bayer Leverkusen", away: "Inter de Milán", result: null},
+            {home: "Bayer Leverkusen", away: "AC Milan", result: null},
+            {home: "Bayer Leverkusen", away: "Salzburg", result: null},
+            {home: "Bayer Leverkusen", away: "Sparta Praga", result: null}
+            
+            ],
+
+            
+    
+            
+
+        };
+
+        // Inicializar la clasificación
+        let standings = {};
+        teams.forEach(team => {
+            standings[team] = 0;
+        });
+
+        // Generar la tabla de enfrentamientos
+        function renderMatches() {
+            const matchesContainer = document.getElementById("matches-container");
+            matchesContainer.innerHTML = "";
+            teams.forEach(team => {
+                const teamColumn = document.createElement("div");
+                teamColumn.classList.add("team-column");
+
+                matches[team].forEach((match, index) => {
+                    const matchDiv = document.createElement("div");
+                    matchDiv.classList.add("match");
+                    matchDiv.innerHTML = `
+                        <strong>${match.home} vs ${match.away}</strong>
+                        <select onchange="updateResult('${team}', ${index}, this.value)">
+                            <option value="">Seleccionar resultado</option>
+                            <option value="home-win" ${match.result === 'home-win' ? 'selected' : ''}>${match.home} gana</option>
+                            <option value="away-win" ${match.result === 'away-win' ? 'selected' : ''}>${match.away} gana</option>
+                            <option value="draw" ${match.result === 'draw' ? 'selected' : ''}>Empate</option>
+                        </select>
+                    `;
+                    teamColumn.appendChild(matchDiv);
+                });
+
+                matchesContainer.appendChild(teamColumn);
+            });
+        }
+
+        // Actualizar la clasificación
+        function updateResult(team, matchIndex, result) {
+            // Actualizar el resultado del partido
+            matches[team][matchIndex].result = result;
+
+            // Recalcular la clasificación
+            recalculateStandings();
+        }
+
+        function recalculateStandings() {
+            // Reiniciar puntos
+            teams.forEach(team => {
+                standings[team] = 0;
+            });
+
+            // Calcular puntos según los resultados actuales
+            teams.forEach(team => {
+                matches[team].forEach(match => {
+                    if (match.result === "home-win") {
+                        standings[match.home] += 3;
+                    } else if (match.result === "away-win") {
+                        standings[match.away] += 3;
+                    } else if (match.result === "draw") {
+                        standings[match.home] += 1;
+                        standings[match.away] += 1;
+                    }
+                });
+            });
+
+            // Actualizar la tabla de clasificación
+            renderStandings();
+        }
+
+        // Generar la tabla de clasificación
+        // Generar la tabla de clasificación
+        function renderStandings() {
+    const standingsTable = document.getElementById("standings");
+
+    // Limpiar la tabla antes de volver a generarla
+    standingsTable.innerHTML = `
+        <tr>
+            <th>Posición</th>
+            <th>Equipo</th>
+            <th>Puntos</th>
+        </tr>
+    `;
+
+    // Ordenar el equipo por puntos en orden descendente
+    const sortedTeams = Object.keys(standings).sort((a, b) => standings[b] - standings[a]);
+
+    sortedTeams.forEach((team, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>
+                <img src="${team}.png" alt="${team}" class="img-fluid rounded-circle me-2" style="width: 30px; height: 30px;">
+                ${team}
+            </td>
+            <td>${standings[team]}</td>
+        `;
+        standingsTable.appendChild(row);
+    });
+}
+
+
+
+
+        // Inicializar la aplicación
+        renderMatches();
+        renderStandings();
+    </script>
+
+</body>
+</html>
+
